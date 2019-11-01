@@ -1,0 +1,169 @@
+/* Font */
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700&display=swap');
+
+/* Variables */
+:root {
+   --font: 'Nunito', sans-serif; 
+}
+
+/* Base styles */
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font);
+    color: rgb(47, 80, 122);
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: rgb(223, 229, 236);
+}
+
+.informationContainer {
+    flex: 0 0 80%;
+    background: rgb(247, 247, 247);
+    border-radius: 0 32px 0 0;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 64px 128px;
+}
+
+.info__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.info__title {
+    line-height: 1;
+    font-size: 32px;
+    margin: 0;
+}
+
+.humidity {
+    margin: 0;
+}
+
+.text-muted {
+    color: rgb(169, 182, 211);
+}
+
+.switchContainer {
+    flex: 0 0 20%;
+    box-sizing: border-box;
+    padding: 64px 16px 0 48px;
+}
+
+.switchContainer__title {
+    color: rgb(127, 147, 190);
+    text-transform: uppercase;
+}
+
+.tempContainer {
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temperature {
+    width: 200px;
+    height: 200px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px #00000030;
+    position: relative;
+}
+
+.temperature__display {
+    font-size: 64px;
+}
+
+.temperature__unit {
+    position: absolute;
+    bottom: 32px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.temperature.-outer {
+    width: 250px;
+    height: 250px;
+    background: rgb(223, 229, 236);
+    /* border-width: 32px;
+    border-style: solid;
+    border-color: rgb(223, 229, 236); */
+    box-shadow: inset 0 0 15px #00000020;
+}
+
+.switch__item {
+    display: flex;
+    justify-content: flex-start;
+    margin: 24px 0;
+}
+
+.switch__button {
+    height: 48px;
+    width: 48px;
+    border-radius: 10px;
+    margin: 0 24px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+}
+
+#lightsSwitch {
+    background-color: rgb(190, 178, 3);
+}
+
+.switch__button.-on {
+    color: #1b1d1e;
+    transition: all 100ms ease-in-out;
+}
+
+#lightsSwitch.-on {
+    background-color: rgb(255, 230, 0);
+    box-shadow: 0 0 15px rgb(255, 230, 0);
+}
+
+#powerSwitch {
+    background-color: rgb(17, 65, 119);
+}
+
+#powerSwitch.-on {
+    background-color: rgb(95, 164, 255);
+    box-shadow: 0 0 15px rgb(95, 164, 255);
+}
+
+#frontDoorSwitch, #backDoorSwitch {
+    background-color: rgb(145, 0, 0);
+}
+
+#frontDoorSwitch.-on, #backDoorSwitch.-on {
+    background-color: rgb(81, 226, 81);
+    box-shadow: 0 0 15px rgb(81, 226, 81);
+}
+
+.switch__details {
+    height: 48px;
+}
+
+.switch__details > * {
+    margin: 0;
+}
+
+.switch__title {
+    font-weight: 700;
+    font-size: 20px;
+}

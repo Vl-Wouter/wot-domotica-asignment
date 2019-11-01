@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="https://kit.fontawesome.com/bd8617b409.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main class="container">
+        <section class="informationContainer">
+            <header class="info__header">
+                <section class="info__header__title">
+                    <h2 class="info__title text-muted">Pi <i class="fab fa-raspberry-pi"></i></h2>
+                    <h2 class="info__title">Temperature</h2>
+                </section>
+                <h3 class="humidity"><i class="fas fa-tint"></i> <span id="humidityValue">0</span>%</h3>
+            </header>
+            <main class="tempContainer">
+                <section class="temperature -outer">
+                    <div class="temperature">
+                        <h1 class="temperature__display" id="temperatureValue">34</h1>
+                        <span class="temperature__unit text-muted">°C</span>
+                    </div>
+                </section>
+            </main>
+        </section>
+        <section class="switchContainer">
+            <h3 class="switchContainer__title">Controls</h3>
+            <div class="switch__item">
+                <div class="switch__button" id='lightsSwitch'>
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="switch__details">
+                    <p class="switch__title">Lights</p>
+                    <p class="text-muted" id="lightsState">OFF</p>
+                </div>
+            </div>
+            <div class="switch__item">
+                <div class="switch__button -on" id='powerSwitch'>
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="switch__details">
+                    <p class="switch__title">Power</p>
+                    <p class="text-muted" id="powerState">ON</p>
+                </div>
+            </div>
+            <div class="switch__item">
+                <div class="switch__button" id='frontDoorSwitch'>
+                    <i class="fas fa-door-closed"></i>
+                </div>
+                <div class="switch__details">
+                    <p class="switch__title">Front Door</p>
+                    <p class="text-muted" id="frontDoorState">CLOSED</p>
+                </div>
+            </div>
+            <div class="switch__item">
+                <div class="switch__button -on" id='backDoorSwitch'>
+                    <i class="fas fa-door-closed"></i>
+                </div>
+                <div class="switch__details">
+                    <p class="switch__title">Back Door</p>
+                    <p class="text-muted" id="backDoorState">OPEN</p>
+                </div>
+            </div>
+            <h3 class="switchContainer__title">Rooms</h3>
+        </section>
+    </main>
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <!-- Add desired Firebase functions -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>  
+    <!-- Charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <!-- Add own scripts -->
+    <script src="assets/js/firebase-details.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
