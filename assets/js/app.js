@@ -87,7 +87,7 @@ const watchSensors = () => {
         const humidityElement = document.querySelector(`#humidityValue`)
         const temperatureElement = document.querySelector(`#temperatureValue`)
         humidityElement.innerHTML = humidity
-        temperatureElement.innerHTML = temperature[0]
+        temperatureElement.innerHTML = temperature[0].value
     })
 }
 
