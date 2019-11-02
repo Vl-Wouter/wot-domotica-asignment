@@ -1,5 +1,6 @@
 const db = firebase.firestore()
 const homeRef = db.collection('home')
+let temperatureChart
 
 /**
  * * Initialize data listeners for separate documents
@@ -74,20 +75,146 @@ const initEventListener = (name) => {
  * @param {String} name name of the control
  */
 const initControls = () => {
-    const controls = ['lights', 'power', 'frontDoor', 'backDoor']
+    const controls = ['lights', 'power', 'frontDoor', 'backDoor', 'alarm']
     controls.forEach(control => {
         watchControlData(control)
         initEventListener(control)
     })
 }
 
-const watchSensors = () => {
+const watchSensors = (chart) => {
     homeRef.doc('sensors').onSnapshot(doc => {
         const { humidity, temperature } = doc.data()
         const humidityElement = document.querySelector(`#humidityValue`)
         const temperatureElement = document.querySelector(`#temperatureValue`)
+        const outerRing = document.querySelector('#tempOuterRing')
+        const tempValue = temperature[0].value
         humidityElement.innerHTML = humidity
-        temperatureElement.innerHTML = temperature[0].value
+        if(tempValue > 40) {
+            outerRing.style.backgroundColor = 'rgb(236, 117, 61)'
+        } else if(tempValue > 30) {
+            outerRing.style.backgroundColor = 'rgb(61, 236, 90)'
+        } else {
+            outerRing.style.backgroundColor = 'rgb(61, 122, 236)'
+        }
+        temperatureElement.innerHTML = tempValue
+        updateChart(chart, temperature[0])
+
+    })
+}
+
+const updateChart = (chart, temperature) => {
+    dateLabel = new Date(temperature.timestamp.seconds * 1000)
+    chart.data.labels.push(dateLabel)
+    chart.data.labels.shift()
+    chart.data.datasets.forEach(dataset => {
+        dataset.data.push({
+            x: dateLabel,
+            y: temperature.value,
+        })
+        dataset.data.shift()
+    })
+    chart.update()
+}
+
+const createChart = (labels, data) => {
+    const ctx = document.getElementById('tempChart')
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: 'Temperature',
+                borderColor: 'rgba(169, 182, 211, 1)',
+                backgroundColor: 'rgb(183, 198, 216)',
+                data: data,
+                pointBackgroundColor: 'rgba(223, 229, 236)',
+                pointBorderWidth: 0,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                scaleLabel: {
+                    display: false,
+                },
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        unit: 'minute'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false,
+                        lineHeight: 0,
+                        fontFamily: "'Nunito', sans-serif"
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false,
+                        drawTicks: false,
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                        beginAtZero: true,
+                    }
+                }]
+            },
+            legend: {
+                display: false,
+            }
+        }
+    })
+    return myChart
+}
+
+// const initChart = () => {
+//     homeRef.doc('sensors').get()
+//     .then(doc => doc.data())
+//     .then(data => {
+//         const temps = data.temperature
+//         const chartData = []
+//         const labelPoints = []
+//         temps.forEach(temp => {
+//             chartDate = new Date(temp.timestamp.seconds * 1000)
+//             chartData.unshift({
+//                 x: chartDate,
+//                 y: temp.value,
+//             })
+//             labelPoints.unshift(chartDate)
+//         })
+//         console.log(chartData)
+//         temperatureChart = createChart(labelPoints, chartData)
+//     })
+// }
+const initChart = () => {
+    return new Promise((resolve, reject) => {
+        homeRef.doc('sensors').get()
+        .then(doc => doc.data())
+        .then(data => {
+            const temps = data.temperature
+            const chartData = []
+            const labelPoints = []
+            temps.forEach(temp => {
+                chartDate = new Date(temp.timestamp.seconds * 1000)
+                chartData.unshift({
+                    x: chartDate,
+                    y: temp.value,
+                })
+                labelPoints.unshift(chartDate)
+            })
+            console.log(chartData)
+            temperatureChart = createChart(labelPoints, chartData)
+            resolve(temperatureChart)
+        })
     })
 }
 
@@ -97,8 +224,12 @@ const watchSensors = () => {
 const initApp = () => {
     // initialize controls
     initControls()
-    // initialize sensors
-    watchSensors()
+    // Initialize chart
+    initChart().then(chart => {
+        // initialize sensors
+        watchSensors(chart)
+
+    })
 }
 
 initApp()

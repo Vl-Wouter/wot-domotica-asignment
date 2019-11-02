@@ -43,7 +43,7 @@ class updater(threading.Thread):
                 last_humidity = new_humidity
             else:
                 print('No need to update temperature or humidity')
-            time.sleep(20)
+            time.sleep(60)
         print('stopping updater')
 
 def get_color(name, isOn):
@@ -71,8 +71,9 @@ def update_matrix(document):
 def on_snapshot(col_snapshot, changes, read_time):
     print(u'Received updates from controls')
     for doc in col_snapshot:
-        print(u'Updating {}'.format(doc.id))
-        update_matrix(doc.to_dict())
+        if doc.id != 'alarm':
+            print(u'Updating {}'.format(doc.id))
+            update_matrix(doc.to_dict())
 
 class listener(threading.Thread):
     def run(self):

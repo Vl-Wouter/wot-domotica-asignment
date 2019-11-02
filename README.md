@@ -38,4 +38,4 @@ git clone https://github.com/Vl-Wouter/wot-domotica-asignment.git
 
 Place your `serviceAccount.json` file in `/pi`. Without this the pi application will not run. By doing this you might also want to change the firebase details in `/assets/js/firebase-details.js` to fit your project.
 
-...
+The python app should populate the sensor data automatically. The other data has to be entered manually or via a script.
