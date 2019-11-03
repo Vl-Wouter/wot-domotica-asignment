@@ -1,5 +1,7 @@
 const db = firebase.firestore()
 const homeRef = db.collection('home')
+const overlay = document.querySelector('.overlay')
+const loginBtn = document.querySelector('#loginBtn')
 let temperatureChart
 
 /**
@@ -9,7 +11,6 @@ let temperatureChart
 const watchControlData = (name) => {
     homeRef.doc(name).onSnapshot(doc => {
         const {isOn} = doc.data()
-        console.log(`Logged ${name}. Is on: ${isOn}`)
         updateControlState(name, isOn)
     })
 }
@@ -117,6 +118,11 @@ const updateChart = (chart, temperature) => {
     chart.update()
 }
 
+/**
+ * Creates a new graph based on given data with Chart.js
+ * @param {Array} labels Array with labels for the graph
+ * @param {Array} data Array with graph data
+ */
 const createChart = (labels, data) => {
     const ctx = document.getElementById('tempChart')
     const myChart = new Chart(ctx, {
@@ -176,25 +182,9 @@ const createChart = (labels, data) => {
     return myChart
 }
 
-// const initChart = () => {
-//     homeRef.doc('sensors').get()
-//     .then(doc => doc.data())
-//     .then(data => {
-//         const temps = data.temperature
-//         const chartData = []
-//         const labelPoints = []
-//         temps.forEach(temp => {
-//             chartDate = new Date(temp.timestamp.seconds * 1000)
-//             chartData.unshift({
-//                 x: chartDate,
-//                 y: temp.value,
-//             })
-//             labelPoints.unshift(chartDate)
-//         })
-//         console.log(chartData)
-//         temperatureChart = createChart(labelPoints, chartData)
-//     })
-// }
+/**
+ * Prepares the chart data
+ */
 const initChart = () => {
     return new Promise((resolve, reject) => {
         homeRef.doc('sensors').get()
@@ -211,12 +201,34 @@ const initChart = () => {
                 })
                 labelPoints.unshift(chartDate)
             })
-            console.log(chartData)
             temperatureChart = createChart(labelPoints, chartData)
             resolve(temperatureChart)
         })
     })
 }
+
+firebase.auth().onAuthStateChanged(user => {
+  if(user) {
+    if(!overlay.classList.contains('-hidden')) {
+      overlay.classList.add('-hidden')
+    }
+    initApp()
+  } else {
+    overlay.classList.remove('-hidden')
+  }
+})
+
+loginBtn.addEventListener('click', (e) => {
+  e.preventDefault()
+  const email = document.querySelector('#email').value
+  const pass = document.querySelector('#password').value
+
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(() => {
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+  })
+  .catch(err => console.error(err))
+})
 
 /**
  * Initialize app
@@ -231,5 +243,3 @@ const initApp = () => {
 
     })
 }
-
-initApp()

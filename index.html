@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>SmartHome</title>
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="https://kit.fontawesome.com/bd8617b409.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <section class="overlay">
+        <div class="overlay__form">
+            <h2>SmartHome</h2>
+            <form class="form" method="post">
+                <div class="form__group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" autofocus>
+                </div>
+                <div class="form__group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password">
+                </div>
+                <button id="loginBtn" class="btn -primary">Log in</button>
+            </form>
+        </div>
+    </section>
     <main class="container">
         <section class="informationContainer">
             <header class="info__header">
