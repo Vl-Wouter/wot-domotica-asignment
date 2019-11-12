@@ -74,6 +74,8 @@ def on_snapshot(col_snapshot, changes, read_time):
         if doc.id != 'alarm':
             print(u'Updating {}'.format(doc.id))
             update_matrix(doc.to_dict())
+        else:
+            print(u'Checking if alarm is turned on')
 
 class listener(threading.Thread):
     def run(self):

@@ -103,6 +103,37 @@ const watchSensors = (chart) => {
 
     })
 }
+const alarmsound = new Audio('./assets/sound/swamp.mp3')
+
+const activateAlarm = () => {
+    alarmsound.play()
+    alarmsound.loop = true
+    homeRef.doc("frontDoor").set({
+        isOn: true
+    })
+    homeRef.doc("backDoor").set({
+        isOn: true
+    })
+}
+
+const resetAlarm = () => {
+    alarmsound.pause()
+    alarmsound.currentTime = 0
+    homeRef.doc("frontDoor").set({
+        isOn: false
+    })
+    homeRef.doc("backDoor").set({
+        isOn: false
+    })
+}
+
+const checkAlarm = () => {
+    homeRef.doc("alarm").onSnapshot(doc => {
+        const { isOn } = doc.data()
+        console.log(isOn)
+        isOn ? activateAlarm() : resetAlarm()
+    })
+}
 
 const updateChart = (chart, temperature) => {
     dateLabel = new Date(temperature.timestamp.seconds * 1000)
@@ -242,4 +273,5 @@ const initApp = () => {
         watchSensors(chart)
 
     })
+    checkAlarm()
 }
