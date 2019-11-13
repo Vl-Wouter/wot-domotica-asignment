@@ -83,6 +83,10 @@ const initControls = () => {
     })
 }
 
+/**
+ * Watch data and send latest to updatechart()
+ * @param {Object} chart 
+ */
 const watchSensors = (chart) => {
     homeRef.doc('sensors').onSnapshot(doc => {
         const { humidity, temperature } = doc.data()
@@ -105,6 +109,16 @@ const watchSensors = (chart) => {
 }
 const alarmsound = new Audio('./assets/sound/swamp.mp3')
 
+const loopLights = () => {
+    homeRef.doc('lights').get()
+    .then(lights => {
+        const { isOn } = lights.data()
+        homeRef.doc('lights').set({
+            isOn: !isOn
+        })
+    })
+}
+
 const activateAlarm = () => {
     alarmsound.play()
     alarmsound.loop = true
@@ -114,6 +128,7 @@ const activateAlarm = () => {
     homeRef.doc("backDoor").set({
         isOn: true
     })
+    loopLights()
 }
 
 const resetAlarm = () => {
@@ -235,6 +250,9 @@ const initChart = () => {
             temperatureChart = createChart(labelPoints, chartData)
             resolve(temperatureChart)
         })
+        .catch(error => {
+            reject(error)
+        })
     })
 }
 
@@ -272,6 +290,9 @@ const initApp = () => {
         // initialize sensors
         watchSensors(chart)
 
+    })
+    .catch(error => {
+        console.error(error)
     })
     checkAlarm()
 }
