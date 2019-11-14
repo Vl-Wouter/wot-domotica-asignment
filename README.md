@@ -4,6 +4,13 @@ Simulating a SmartHome-application using a simple web portal, Google Firebase an
 
 To set up the Pi app, see [Setup](#setup)
 
+## Demo app credentials
+
+```
+email: test@test.be
+pass: testUser
+```
+
 ## Contributors
 
 Wouter Vlaeyen - [GitHub](https://github.com/Vl-Wouter) - [Website](https://www.wouterv.be)
@@ -16,15 +23,15 @@ Design of the application is inspired by a Dribbble post by [Michal Parulski](ht
 
 3 types of lights to be shown on the Sense Hat LED Matrix:
 
-* Lights:
-  * Should be yellow when on
-  * Should be darker yellow when turned off
-* Power plugs:
-  * Should be bright blue when turned on
-  * Should be darker blue when turned off
-* Doors
-  * Should be green when open
-  * Should be red when closed
+- Lights:
+  - Should be yellow when on
+  - Should be darker yellow when turned off
+- Power plugs:
+  - Should be bright blue when turned on
+  - Should be darker blue when turned off
+- Doors
+  - Should be green when open
+  - Should be red when closed
 
 The web portal should also show an alarm button that opens all doors, makes the lights flash and plays an alarm sound. Besides that the temperature and humidity should also be read from the Pi.
 
